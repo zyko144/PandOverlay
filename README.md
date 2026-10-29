@@ -51,3 +51,5 @@ La désinstallation depuis les applications Windows conserve les statistiques et
 Le setup ne nécessite aucun fichier `dlls.txt`. Son fichier peut être vérifié avec les empreintes de `SHA256SUMS.txt` jointes à chaque release.
 
 Depuis la version 1.4.0, un journal de démarrage est créé localement dans `%LOCALAPPDATA%\PandOverlay\setup-diagnostic.log`. Il indique la version du setup, son empreinte, le système et les étapes de démarrage. Il n’est pas envoyé automatiquement. Une capture seule ne suffit pas à identifier la cause d’une erreur provenant d’un autre ordinateur.
+
+Depuis la version 1.4.1, le setup utilise le rendu logiciel. En cas de blocage graphique, `PandOverlay-Setup-Compatible.exe` active aussi le rendu logiciel pour l’application. Ce contournement ne confirme pas la cause du message `Failed to open dlls.txt`. Le journal relève les étapes d’ouverture et les modules chargés ; les données restent locales.
