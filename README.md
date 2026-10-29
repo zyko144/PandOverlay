@@ -4,7 +4,7 @@ Overlay Rocket League pour Windows 10/11 64 bits : victoires, défaites, série 
 
 ## Installer
 
-[Télécharger PandOverlay Setup](https://github.com/zyko144/PandOverlay/releases/latest/download/PandOverlay-Setup.exe), ouvrir le fichier puis cliquer sur **Installer**. Le mini-guide apparaît une seule fois. L’installation se fait pour le compte Windows actuel, sans droits administrateur.
+[Télécharger PandOverlay Setup](https://github.com/zyko144/PandOverlay/releases/latest/download/PandOverlay-Setup.exe), ouvrir le fichier puis cliquer sur **Installer**. Les cinq astuces apparaissent directement au premier lancement, puis les réglages s’ouvrent. Le menu **Conseils** permet de revoir le guide. L’installation se fait pour le compte Windows actuel, sans droits administrateur.
 
 - Démarrage avec Rocket League activé par défaut, désactivable dans les réglages et les conseils.
 - Un clic sur l’icône près de l’horloge ouvre l’application.
