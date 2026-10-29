@@ -1,0 +1,7 @@
+*private*
+*signing-key*
+session.json
+appearance.json
+History/
+*.log
+*.tmp
