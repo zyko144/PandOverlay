@@ -4,17 +4,18 @@ Overlay Rocket League pour Windows 10/11 64 bits : victoires, défaites, série 
 
 ## Installer
 
-[Télécharger PandOverlay Setup](https://github.com/zyko144/PandOverlay/releases/latest/download/PandOverlay-Setup.exe), ouvrir le fichier puis cliquer sur **Installer**. Les cinq astuces apparaissent directement au premier lancement, puis les réglages s’ouvrent. Le menu **Conseils** permet de revoir le guide. L’installation se fait pour le compte Windows actuel, sans droits administrateur.
+[Télécharger PandOverlay Setup](https://github.com/zyko144/PandOverlay/releases/latest/download/PandOverlay-Setup.exe), ouvrir le fichier puis cliquer sur **Installer**. Les cinq astuces apparaissent directement au premier lancement, puis l’accueil s’ouvre. Le menu **Conseils** permet de revoir le guide. L’installation se fait pour le compte Windows actuel, sans droits administrateur.
 
-- Démarrage avec Rocket League activé par défaut, désactivable dans les réglages et les conseils.
+- Démarrage avec Rocket League activé par défaut, désactivable dans les paramètres.
 - Un clic sur l’icône près de l’horloge ouvre l’application.
+- **Alt + H**, en jeu, affiche ou masque les compteurs.
 - **Alt + glisser** déplace l’overlay. Le petit coin règle la taille ; la croix masque l’élément.
 - **Alt + clic sur le petit +** de WINS ou LOSS ajoute un résultat au mode affiché. **Corriger les stats** permet aussi d’en retirer et de choisir un autre mode. Les compteurs ne deviennent jamais négatifs.
-- Utiliser Rocket League en **fenêtré sans bordure**. L’overlay apparaît uniquement lorsque le jeu est au premier plan.
+- Utiliser Rocket League en **fenêtré sans bordure**. Par défaut, l’overlay apparaît uniquement lorsque le jeu est au premier plan. Ce comportement peut être réglé dans Paramètres.
 
 ## Interface
 
-Les pages **Overlay**, **Historique**, **Paramètres** et **Conseils** partagent un fond noir opaque, avec les icônes fournies, un logo sans fond et un trait néon blanc animé autour de la fenêtre. Les aperçus utilisent les statistiques actuelles. L’historique affiche la liste des parties à gauche et leurs détails à droite.
+Les pages **Accueil**, **Éditeur d’overlay**, **Historique**, **Conseils**, **Paramètres** et **Mises à jour** partagent une interface bleu nuit brumeuse, des contours bleus et un trait néon blanc animé. L’accueil présente le bilan réel du jour, le dernier mode, sa série et les dernières parties. Les aperçus utilisent les statistiques actuelles. L’historique affiche un tableau paginé à gauche et les détails de la partie sélectionnée à droite.
 
 L’historique propose les catégories **Tout**, **Classé**, **Casual** et **Autres modes**, avec un filtre de playlist complémentaire. Classé et Casual regroupent les playlists correspondantes ; Autres modes permet de retrouver notamment les modes spéciaux, privés et tournois. La barre de vitesse des animations n’est plus affichée.
 
@@ -32,7 +33,7 @@ Si le résultat n’a pas été reçu, la partie est marquée **Non confirmé**,
 
 ## Mises à jour
 
-Après cette installation, PandOverlay recherche les nouvelles versions sur les releases de ce dépôt. Le fichier est vérifié par signature et empreinte SHA-256, puis installé automatiquement hors partie. Les statistiques, les réglages et l’historique sont conservés. Aucune nouvelle exécution du setup n’est nécessaire pour les prochaines versions compatibles.
+Après cette installation, PandOverlay recherche les nouvelles versions sur les releases de ce dépôt. Le fichier est vérifié par signature et empreinte SHA-256, puis installé automatiquement hors partie. Les statistiques, les réglages et l’historique sont conservés. Aucune nouvelle exécution du setup n’est nécessaire pour les prochaines versions compatibles. La page Mises à jour permet de régler la vérification, le téléchargement automatique et la notification avant installation.
 
 L’icône près de l’horloge propose également **Mises à jour** pour vérifier manuellement.
 
