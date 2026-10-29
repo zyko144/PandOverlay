@@ -9,6 +9,7 @@ Overlay Rocket League pour Windows 10/11 64 bits : victoires, défaites, série 
 - Démarrage avec Rocket League activé par défaut, désactivable dans les réglages et les conseils.
 - Un clic sur l’icône près de l’horloge ouvre l’application.
 - **Alt + glisser** déplace l’overlay ou le logo. Le petit coin règle la taille ; la croix masque l’élément.
+- **Alt + clic sur le petit +** de WINS ou LOSS ajoute un résultat au mode affiché. **Corriger les stats** permet aussi d’en retirer et de choisir un autre mode. Les compteurs ne deviennent jamais négatifs.
 - Utiliser Rocket League en **fenêtré sans bordure**. L’overlay apparaît uniquement lorsque le jeu est au premier plan.
 
 ## Historique
@@ -16,6 +17,10 @@ Overlay Rocket League pour Windows 10/11 64 bits : victoires, défaites, série 
 L’onglet **Historique** permet de parcourir les mois et de filtrer par mode. Il affiche le bilan victoires/défaites, le taux de victoire et les détails disponibles : score, équipes, noms, points, buts, passes, arrêts et tirs.
 
 Les compteurs du jour se remettent à zéro à minuit, heure de Paris. **Les archives restent conservées.** En freeplay, l’overlay affiche les compteurs du dernier mode joué.
+
+Les détails d’une partie permettent de corriger son résultat en **Victoire**, **Défaite** ou **Non confirmé**. Les changements manuels sont indiqués dans l’historique. Une correction d’une ancienne journée ne modifie pas les compteurs d’aujourd’hui. Retirer un résultat le garde visible, hors bilan.
+
+Si un ajout correspond à une partie non confirmée du jour, cette partie est corrigée au lieu d’être dupliquée. Un résultat serveur reçu ensuite ne la comptera pas une seconde fois.
 
 Si le résultat n’a pas été reçu, la partie est marquée **Non confirmé**, sans modifier les victoires/défaites. Les détails incomplets sont signalés. Les anciennes parties qui n’ont pas été archivées ne peuvent pas être reconstituées.
 
