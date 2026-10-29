@@ -14,7 +14,9 @@ Overlay Rocket League pour Windows 10/11 64 bits : victoires, défaites, série 
 
 ## Interface
 
-Les pages **Overlay**, **Historique**, **Paramètres** et **Conseils** partagent une interface sombre bleutée avec barre latérale. Les aperçus utilisent les statistiques actuelles. L’historique affiche la liste des parties à gauche et leurs détails à droite.
+Les pages **Overlay**, **Historique**, **Paramètres** et **Conseils** partagent un fond noir opaque, avec les icônes fournies, un logo sans fond et un trait néon blanc animé autour de la fenêtre. Les aperçus utilisent les statistiques actuelles. L’historique affiche la liste des parties à gauche et leurs détails à droite.
+
+L’historique propose les catégories **Tout**, **Classé**, **Casual** et **Autres modes**, avec un filtre de playlist complémentaire. Classé et Casual regroupent les playlists correspondantes ; Autres modes permet de retrouver notamment les modes spéciaux, privés et tournois. La barre de vitesse des animations n’est plus affichée.
 
 ## Historique
 
@@ -43,3 +45,9 @@ L’interface ne comporte aucune rubrique ni aucun logo de rang. Le MMR n’est 
 Les archives et les réglages restent dans `%LOCALAPPDATA%\PandOverlay`. Ils ne sont pas envoyés sur GitHub. Seule la recherche de mise à jour nécessite une connexion à GitHub.
 
 La désinstallation depuis les applications Windows conserve les statistiques et les archives.
+
+## Diagnostic du setup
+
+Le setup ne nécessite aucun fichier `dlls.txt`. Son fichier peut être vérifié avec les empreintes de `SHA256SUMS.txt` jointes à chaque release.
+
+Depuis la version 1.4.0, un journal de démarrage est créé localement dans `%LOCALAPPDATA%\PandOverlay\setup-diagnostic.log`. Il indique la version du setup, son empreinte, le système et les étapes de démarrage. Il n’est pas envoyé automatiquement. Une capture seule ne suffit pas à identifier la cause d’une erreur provenant d’un autre ordinateur.
