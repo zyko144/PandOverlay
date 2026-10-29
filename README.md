@@ -8,9 +8,13 @@ Overlay Rocket League pour Windows 10/11 64 bits : victoires, défaites, série 
 
 - Démarrage avec Rocket League activé par défaut, désactivable dans les réglages et les conseils.
 - Un clic sur l’icône près de l’horloge ouvre l’application.
-- **Alt + glisser** déplace l’overlay ou le logo. Le petit coin règle la taille ; la croix masque l’élément.
+- **Alt + glisser** déplace l’overlay. Le petit coin règle la taille ; la croix masque l’élément.
 - **Alt + clic sur le petit +** de WINS ou LOSS ajoute un résultat au mode affiché. **Corriger les stats** permet aussi d’en retirer et de choisir un autre mode. Les compteurs ne deviennent jamais négatifs.
 - Utiliser Rocket League en **fenêtré sans bordure**. L’overlay apparaît uniquement lorsque le jeu est au premier plan.
+
+## Interface
+
+Les pages **Overlay**, **Historique**, **Paramètres** et **Conseils** partagent une interface sombre bleutée avec barre latérale. Les aperçus utilisent les statistiques actuelles. L’historique affiche la liste des parties à gauche et leurs détails à droite.
 
 ## Historique
 
@@ -34,7 +38,7 @@ L’icône près de l’horloge propose également **Mises à jour** pour vérif
 
 Les données de jeu viennent de l’[API Stats locale de Rocket League](https://www.rocketleague.com/developer/stats-api). Quitter trop tôt peut empêcher la réception du résultat. L’identification de l’équipe utilise le compte Steam local ou, à défaut, le nom du joueur connecté ; un résultat ambigu n’est pas deviné à partir de la caméra.
 
-Le rang est choisi manuellement. Cette version ne fournit pas le vrai MMR ni les promotions automatiques. BakkesMod et Overwolf ne sont pas nécessaires.
+L’interface ne comporte aucune rubrique ni aucun logo de rang. Le MMR n’est pas affiché. BakkesMod et Overwolf ne sont pas nécessaires.
 
 Les archives et les réglages restent dans `%LOCALAPPDATA%\PandOverlay`. Ils ne sont pas envoyés sur GitHub. Seule la recherche de mise à jour nécessite une connexion à GitHub.
 
