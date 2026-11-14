@@ -1,0 +1,117 @@
+--- a/work/AnimationBudget.cs
++++ b/work/AnimationBudget.cs
+@@ -5,6 +5,8 @@
+  readonly List<ClockController> visualClocks=new List<ClockController>();
+  void Animate(IAnimatable target,DependencyProperty property,AnimationTimeline animation){
+   if(animation==null){target.ApplyAnimationClock(property,null);return;}
++  // Keep the static visual values in light mode: no decorative animation clocks.
++  if(Prefs.LightMode){target.ApplyAnimationClock(property,null);return;}
+   var clock=(AnimationClock)animation.CreateClock(true);var controller=clock.Controller;target.ApplyAnimationClock(property,clock);
+   if(controller!=null){visualClocks.Add(controller);if(!IsVisible)controller.Pause();if(!animation.RepeatBehavior.HasCount||animation.RepeatBehavior.Count!=double.PositiveInfinity)clock.Completed+=(s,e)=>visualClocks.Remove(controller);}
+  }
+--- a/work/RLOverlay.cs
++++ b/work/RLOverlay.cs
+@@ -87,7 +87,7 @@
+   SourceInitialized+=(s,e)=>ClickThrough(true);
+   MouseLeftButtonDown+=(s,e)=> { if(editing) { DragMove(); state.X=Left; state.Y=Top; Profile.Anchor="Libre"; Save(); } };
+   tracker=new Tracker(state,demo?null:History,demo?null:LocalPlayerIdentity.Load());tracker.Diagnostic=Log;tracker.MatchStarted=(id,playlist)=>MmrMatchStarted(id,playlist);tracker.MatchFinished=MmrMatchFinished; tracker.Changed=()=> { Refresh(true); Save(); Log("Résultat reçu : W="+state.Wins+" L="+state.Losses+" streak="+state.Streak); };
+-  trailTimer=new System.Windows.Threading.DispatcherTimer { Interval=TimeSpan.FromMilliseconds(Prefs.LightMode?60:25) }; trailTimer.Tick+=(sender,e)=>UpdateTextTrails(); IsVisibleChanged+=(sender,e)=>{SetAnimationVisibility(IsVisible);if(IsVisible)trailTimer.Start();else trailTimer.Stop();}; if(IsVisible)trailTimer.Start(); Closed+=(sender,e)=>trailTimer.Stop(); UpdateTextTrails();
++  trailTimer=new System.Windows.Threading.DispatcherTimer { Interval=TimeSpan.FromMilliseconds(25) }; trailTimer.Tick+=(sender,e)=>UpdateTextTrails(); IsVisibleChanged+=(sender,e)=>{SetAnimationVisibility(IsVisible);SyncTrailTimer();}; SyncTrailTimer(); Closed+=(sender,e)=>trailTimer.Stop(); UpdateTextTrails();
+   if(demo) return;
+   StartMmrReader();
+   tray=new Forms.NotifyIcon { Icon=BrandIcon(), Visible=true, Text="PandOverlay — en attente du jeu" };
+@@ -220,6 +220,7 @@
+  class Trail { public System.Windows.Shapes.Path Path; public List<Point[]> Loops=new List<Point[]>(); public double Length; public double Seconds=2.4; }
+  List<Trail> textTrails=new List<Trail>(); System.Windows.Threading.DispatcherTimer trailTimer;
+  void LetterTrail(Geometry geometry,Color color,double seconds=2.4) {
++  if(Prefs.LightMode || !Profile.Neon)return;
+   var flat=geometry.GetFlattenedPathGeometry(.1,ToleranceType.Absolute); var tr=flat.Transform ?? Transform.Identity; var trail=new Trail { Seconds=seconds };
+   foreach(var fig in flat.Figures) {
+    var pts=new List<Point>(); pts.Add(tr.Transform(fig.StartPoint));
+@@ -229,6 +230,8 @@
+   trail.Path=new System.Windows.Shapes.Path { Stroke=new SolidColorBrush(color),StrokeThickness=.7,StrokeStartLineCap=PenLineCap.Round,StrokeEndLineCap=PenLineCap.Round,IsHitTestVisible=false,Effect=new DropShadowEffect { Color=color,BlurRadius=3,ShadowDepth=0,Opacity=.9 } }; trail.Path.Opacity=Profile.Neon?1:0;canvas.Children.Add(trail.Path); textTrails.Add(trail);
+  }
+  void UpdateTextTrails() {
++  SyncTrailTimer();
++  if(Prefs.LightMode || !Profile.Neon || !IsVisible)return;
+ 
+   foreach(var trail in textTrails) {
+    double duration=trail.Seconds/Math.Max(.4,Profile.NeonSpeed); double progress=(DateTime.UtcNow.TimeOfDay.TotalSeconds%duration)/duration;
+@@ -243,6 +246,11 @@
+    }
+    data.Freeze(); trail.Path.Data=data;
+   }
++ }
++ void SyncTrailTimer() {
++  if(trailTimer==null)return;
++  if(IsVisible && !Prefs.LightMode && Profile.Neon && textTrails.Count>0)trailTimer.Start();
++  else trailTimer.Stop();
+  }
+  System.Windows.Shapes.Path NeonRunner(Geometry geometry,Color color,double thickness,double dash,double seconds,double phase,double opacity) {
+   if(neonRotation==null) {
+--- a/work/ModeHeader.cs
++++ b/work/ModeHeader.cs
+@@ -43,6 +43,7 @@
+   }
+   var title=new System.Windows.Shapes.Path { Data=outline,Fill=Brushes.White,Effect=new DropShadowEffect { Color=Color.FromRgb(165,85,255),BlurRadius=3,ShadowDepth=0,Opacity=.5 } }; modeHeader.Children.Add(title);
+   if(names[1].Length>0) modeHeader.Children.Add(new System.Windows.Shapes.Path { Data=small.BuildGeometry((LayoutId==2?new Point(BaseWidth/2-small.Width/2,28):new Point(left+width+8,baseline-small.Baseline))),Fill=Brush("#BC7DFF") });
++  if(Prefs.LightMode || !Profile.Neon)return;
+   LetterTrail(outline,Color.FromRgb(180,100,255),4.8);
+   var neon=(System.Windows.Shapes.Path)canvas.Children[canvas.Children.Count-1];
+   neon.Stroke=Brush("#C080FF"); neon.StrokeThickness=1.25;
+--- a/work/Updates.cs
++++ b/work/Updates.cs
+@@ -25,7 +25,9 @@
+   protected override WebRequest GetWebRequest(Uri address){var request=base.GetWebRequest(address);request.Timeout=15000;var http=request as HttpWebRequest;if(http!=null){http.ReadWriteTimeout=15000;http.UserAgent="PandOverlay/1.1";}return request;}
+  }
+  async Task CheckUpdates(bool manual=false) {
+-  if(checkingUpdate)return;checkingUpdate=true;updateStatus="Recherche d’une mise à jour…";
++  if(checkingUpdate)return;
++  if(!manual && GameIsRunning()){updateStatus="Vérification reportée après la fermeture du jeu.";return;}
++  checkingUpdate=true;updateStatus="Recherche d’une mise à jour…";
+   try {
+    string result=await Task.Run(()=> {
+     ServicePointManager.SecurityProtocol|=SecurityProtocolType.Tls12;
+@@ -35,6 +37,7 @@
+      if(!manual&&!Prefs.AutoDownload)return "Version "+new Version(manifest.version).ToString(3)+" disponible.";
+      string dir=Path.Combine(Folder,"Updates");Directory.CreateDirectory(dir);string package=Path.Combine(dir,"PandOverlay.exe"),temp=package+".download";
+      if(File.Exists(PendingManifest)) {try{var existing=UpdateTrust.ReadAndVerify(File.ReadAllText(PendingManifest));if(existing.version==manifest.version){UpdateTrust.VerifyPackage(package,manifest);return "Version "+manifest.version+" prête. Elle sera installée hors partie.";}}catch{File.Delete(PendingManifest);}}
++     if(!manual && GameIsRunning())return "Téléchargement reporté après la fermeture du jeu.";
+      web.DownloadFile(manifest.url,temp);UpdateTrust.VerifyPackage(temp,manifest);
+      if(File.Exists(package))File.Delete(package);File.Move(temp,package);File.WriteAllText(PendingManifest,text);
+      return "Version "+manifest.version+" prête. Elle sera installée hors partie.";
+--- a/work/Branding.cs
++++ b/work/Branding.cs
+@@ -7,8 +7,8 @@
+ [assembly: AssemblyProduct("PandOverlay")]
+ [assembly: AssemblyDescription("Overlay Rocket League · PandOverlay")]
+ [assembly: AssemblyCompany("PandOverlay")]
+-[assembly: AssemblyVersion("1.6.11.0")]
+-[assembly: AssemblyFileVersion("1.6.11.0")]
++[assembly: AssemblyVersion("1.6.12.0")]
++[assembly: AssemblyFileVersion("1.6.12.0")]
+ 
+ public partial class Overlay {
+  [System.Runtime.InteropServices.DllImport("shell32.dll",CharSet=System.Runtime.InteropServices.CharSet.Unicode)]
+--- a/work/Setup.cs
++++ b/work/Setup.cs
+@@ -13,8 +13,8 @@
+ [assembly:AssemblyTitle("PandOverlay Setup")]
+ [assembly:AssemblyProduct("PandOverlay")]
+ [assembly:AssemblyCompany("PandOverlay")]
+-[assembly:AssemblyVersion("1.6.11.0")]
+-[assembly:AssemblyFileVersion("1.6.11.0")]
++[assembly:AssemblyVersion("1.6.12.0")]
++[assembly:AssemblyFileVersion("1.6.12.0")]
+ class Setup {
+ #if COMPAT_SETUP
+  const bool CompatibleSetup=true;
+@@ -37,7 +37,7 @@
+   using(var registration=Process.Start(new ProcessStartInfo(AppPath,"--install-only") {UseShellExecute=false,CreateNoWindow=true})) {if(!registration.WaitForExit(15000)||registration.ExitCode!=0)throw new IOException("La configuration n’a pas pu se terminer. Relance le setup.");}
+   Directory.CreateDirectory(Path.GetDirectoryName(MenuLink));Shortcut(MenuLink);if(desktop)Shortcut(DesktopLink);
+   using(var key=Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\PandOverlay")) {
+-   key.SetValue("DisplayName","PandOverlay");key.SetValue("DisplayVersion","1.6.11");key.SetValue("Publisher","PandOverlay");key.SetValue("InstallLocation",Folder);key.SetValue("DisplayIcon",AppPath+",0");key.SetValue("UninstallString","\""+installer+"\" --uninstall");key.SetValue("NoModify",1);key.SetValue("NoRepair",1);
++   key.SetValue("DisplayName","PandOverlay");key.SetValue("DisplayVersion","1.6.12");key.SetValue("Publisher","PandOverlay");key.SetValue("InstallLocation",Folder);key.SetValue("DisplayIcon",AppPath+",0");key.SetValue("UninstallString","\""+installer+"\" --uninstall");key.SetValue("NoModify",1);key.SetValue("NoRepair",1);
+   }
+   SetupTrace("INSTALL_COMPLETE");if(launch)Process.Start(new ProcessStartInfo(AppPath) {UseShellExecute=false,CreateNoWindow=true});
+   }finally{File.Delete(Path.Combine(Folder,"installing.lock"));}

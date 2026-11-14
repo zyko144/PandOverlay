@@ -54,3 +54,16 @@ Le setup ne nécessite aucun fichier `dlls.txt`. Son fichier peut être vérifi�
 Depuis la version 1.4.0, un journal de démarrage est créé localement dans `%LOCALAPPDATA%\PandOverlay\setup-diagnostic.log`. Il indique la version du setup, son empreinte, le système et les étapes de démarrage. Il n’est pas envoyé automatiquement. Une capture seule ne suffit pas à identifier la cause d’une erreur provenant d’un autre ordinateur.
 
 Depuis la version 1.4.1, le setup utilise le rendu logiciel. En cas de blocage graphique, `PandOverlay-Setup-Compatible.exe` active aussi le rendu logiciel pour l’application. Ce contournement ne confirme pas la cause du message `Failed to open dlls.txt`. Le journal relève les étapes d’ouverture et les modules chargés ; les données restent locales.
+
+
+## Version 1.6.12 — mode léger
+
+- Le mode léger conserve un affichage statique sans horloges d’animation décorative.
+- Les tracés néon ne sont plus construits ni recalculés lorsque le mode léger est actif ou que le néon est désactivé.
+- Le minuteur des tracés reste arrêté lorsque l’overlay est masqué ; le mode normal conserve ses animations.
+- Les vérifications et téléchargements automatiques de mises à jour attendent la fermeture de Rocket League. Une vérification manuelle reste possible.
+- Aucune suppression ni migration des statistiques, de l’historique ou des réglages.
+
+Les changements de code depuis la base locale 1.6.11 sont conservés dans `patches/performance-1.6.12.patch`. Le test WPF `tests/PerformanceCheck.cs` valide les chemins léger, normal, masqué et néon désactivé contre le binaire compilé. Les exécutables et le manifeste signé sont joints à la release.
+
+Validation : compilation x64 des deux variantes et des deux setups ; 9 assertions de performance ; 10 assertions sur les résultats tardifs et les changements de mode. L’ancien test `ManualStatsTests` échoue sur « confirmed opponent Win stat immediately counts defeat without waiting for menu », aussi bien sur la base 1.6.11 que sur 1.6.12 ; cette limite préexistante n’est pas corrigée ici. Ces tests ne garantissent pas l’absence de crash de Rocket League sur toutes les configurations.
