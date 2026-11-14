@@ -13,13 +13,13 @@ Overlay Rocket League pour Windows 10/11 64 bits : victoires, défaites, série 
 - **Alt + clic sur le petit +** de WINS ou LOSS ajoute un résultat au mode affiché. **Corriger les stats** permet aussi d’en retirer et de choisir un autre mode. Les compteurs ne deviennent jamais négatifs.
 - Utiliser Rocket League en **fenêtré sans bordure**. Par défaut, l’overlay apparaît uniquement lorsque le jeu est au premier plan. Ce comportement peut être réglé dans Paramètres.
 
-## Interface
+## Interface de la version 1.5 (ancienne)
 
 Les pages **Accueil**, **Éditeur d’overlay**, **Historique**, **Conseils**, **Paramètres** et **Mises à jour** partagent une interface bleu nuit brumeuse, des contours bleus et un trait néon blanc animé. L’accueil présente le bilan réel du jour, le dernier mode, sa série et les dernières parties. Les aperçus utilisent les statistiques actuelles. L’historique affiche un tableau paginé à gauche et les détails de la partie sélectionnée à droite.
 
 L’historique propose les catégories **Tout**, **Classé**, **Casual** et **Autres modes**, avec un filtre de playlist complémentaire. Classé et Casual regroupent les playlists correspondantes ; Autres modes permet de retrouver notamment les modes spéciaux, privés et tournois. La barre de vitesse des animations n’est plus affichée.
 
-## Historique
+## Historique de la version 1.5 (ancienne)
 
 L’onglet **Historique** permet de parcourir les mois et de filtrer par mode. Il affiche le bilan victoires/défaites, le taux de victoire et les détails disponibles : score, équipes, noms, points, buts, passes, arrêts et tirs.
 
@@ -41,7 +41,7 @@ L’icône près de l’horloge propose également **Mises à jour** pour vérif
 
 Les données de jeu viennent de l’[API Stats locale de Rocket League](https://www.rocketleague.com/developer/stats-api). Quitter trop tôt peut empêcher la réception du résultat. L’identification de l’équipe utilise le compte Steam local ou, à défaut, le nom du joueur connecté ; un résultat ambigu n’est pas deviné à partir de la caméra.
 
-L’interface ne comporte aucune rubrique ni aucun logo de rang. Le MMR n’est pas affiché. BakkesMod et Overwolf ne sont pas nécessaires.
+La version actuelle affiche un overlay léger et propose un tutoriel compact depuis l’icône près de l’horloge. Elle peut lire le MMR localement ; Alt + M permet de calibrer la zone sur le tableau de fin de match classé. Un nombre illisible ou ambigu n’est pas inventé. BakkesMod et Overwolf ne sont pas nécessaires.
 
 Les archives et les réglages restent dans `%LOCALAPPDATA%\PandOverlay`. Ils ne sont pas envoyés sur GitHub. Seule la recherche de mise à jour nécessite une connexion à GitHub.
 
